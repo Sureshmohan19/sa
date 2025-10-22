@@ -1,0 +1,11 @@
+# Ignore all contents of the build directory
+/build/
+
+# Ignore executables and other build artifacts
+# that might be created in the root directory.
+/sac
+*.exe
+*.o
+
+# Ignore OS-specific files
+.DS_Store

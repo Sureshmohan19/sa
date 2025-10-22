@@ -1,0 +1,9 @@
+// Milestone 1 Target: A simple main function.
+// We will make the compiler understand this code.
+
+fn main() -> void {
+    let message = "Hello, sa!";
+    print(message);
+}
+
+// A line comment for the lexer to skip.

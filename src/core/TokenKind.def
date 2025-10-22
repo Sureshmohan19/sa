@@ -1,0 +1,54 @@
+//===--- TokenKind.def - The 'sa' Language Token Database -------*- C++ -*-===//
+//
+// This file defines the token database for the 'sa' language.
+// It is meant to be included multiple times with different macro definitions.
+//
+//===----------------------------------------------------------------------===//
+
+// A generic token that is not a keyword.
+// TOK(ENUM_NAME)
+#ifndef TOK
+#define TOK(X)
+#endif
+
+// A punctuator, which is a special kind of token.
+// PUNCTUATOR(ENUM_NAME, "SPELLING")
+#ifndef PUNCTUATOR
+#define PUNCTUATOR(X, Y) TOK(X)
+#endif
+
+// A keyword, which is a special kind of token.
+// KEYWORD("SPELLING")
+#ifndef KEYWORD
+#define KEYWORD(X) TOK(kw_##X)
+#endif
+
+// Generic Tokens
+TOK(unknown)
+TOK(eof) // End Of File
+
+// Literals and Identifiers
+TOK(identifier)
+TOK(string_literal)
+//TOK(integer_literal) // We will add this in Milestone 2
+
+// Punctuators
+PUNCTUATOR(l_paren,    "(")
+PUNCTUATOR(r_paren,    ")")
+PUNCTUATOR(l_brace,    "{")
+PUNCTUATOR(r_brace,    "}")
+PUNCTUATOR(semicolon,  ";")
+PUNCTUATOR(equal,      "=")
+PUNCTUATOR(arrow,      "->")
+PUNCTUATOR(colon,      ":")
+
+// Keywords for Milestone 1
+KEYWORD(fn)
+KEYWORD(let)
+KEYWORD(void)
+//KEYWORD(return) // We will add this in a later milestone
+
+// Undefine the macros so they don't leak into other files.
+#undef KEYWORD
+#undef PUNCTUATOR
+#undef TOK

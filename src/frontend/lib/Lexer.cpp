@@ -4,8 +4,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "frontend/Lexer.h"
-#include "core/Token.h" // For tok::isKeyword
+#include "frontend/include/Lexer.h"
+#include "core/include/Token.h" // For tok::isKeyword
 #include <unordered_map>
 
 namespace sa {

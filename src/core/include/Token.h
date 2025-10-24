@@ -6,8 +6,9 @@
 
 #pragma once
 
-#include "core/TokenKind.h"
+#include "core/include/TokenKind.h"
 #include <string_view>
+#include <string>
 
 namespace sa {
 

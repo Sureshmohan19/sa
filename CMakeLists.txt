@@ -15,8 +15,19 @@ include_directories(src)
 # List all the .cpp source files needed to build it.
 add_executable(sac
     src/main.cpp
-    src/core/Token.cpp
-    src/frontend/Lexer.cpp
+    src/core/lib/Token.cpp
+    src/frontend/lib/Lexer.cpp
+    src/frontend/lib/Parser.cpp
+)
+
+# Tell CMake to rebuild if the header files change.
+target_sources(sac PRIVATE
+    src/core/include/Token.h
+    src/frontend/include/Lexer.h
+    src/frontend/include/Parser.h 
+    src/ast/include/Decl.h        
+    src/ast/include/Stmt.h
+    src/ast/include/Expr.h
 )
 
 # A small convenience to print the build type during configuration.

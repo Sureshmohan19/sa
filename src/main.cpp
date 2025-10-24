@@ -30,13 +30,16 @@
 //
 // ============================================================================
 
-#include "core/Token.h"
-#include "frontend/Lexer.h"
+#include "core/include/Token.h"
+#include "frontend/include/Lexer.h"
+#include "frontend/include/Parser.h" 
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <vector>
 #include <string>
+
+// We will write a simple AST printer later to test this properly.
+// For now, we just want it to compile and run without crashing.
 
 int main(int argc, char** argv) {
     if (argc != 2) {
@@ -54,19 +57,20 @@ int main(int argc, char** argv) {
     buffer << file.rdbuf();
     std::string sourceCode = buffer.str();
 
-    std::cout << "--- Lexing file: " << argv[1] << " ---" << std::endl;
-
     sa::Lexer lexer(sourceCode);
-    
-    for (;;) {
-        sa::Token token = lexer.scanNextToken();
-        std::cout << "Line " << token.line << ":\t"
-                  << sa::tok::getTokenName(token.kind)
-                  << "\t'" << token.lexeme << "'" << std::endl;
+    sa::Parser parser(lexer);
 
-        if (token.kind == sa::tok::eof) {
-            break;
-        }
+    std::cout << "--- Parsing file: " << argv[1] << " ---" << std::endl;
+    
+    // The magic happens here!
+    auto ast = parser.parse();
+
+    if (!ast.empty()) {
+        std::cout << "Successfully parsed the source file!" << std::endl;
+        std::cout << "Found " << ast.size() << " top-level declaration(s)." << std::endl;
+    } else {
+        std::cerr << "Parsing failed." << std::endl;
+        return 1;
     }
 
     return 0;

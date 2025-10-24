@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "core/Token.h"
+#include "core/include/Token.h"
 #include <string_view>
 
 namespace sa {

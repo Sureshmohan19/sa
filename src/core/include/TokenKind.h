@@ -14,7 +14,7 @@ namespace tok {
         #define TOK(X) X,
         #define PUNCTUATOR(X, Y) X,
         #define KEYWORD(X) kw_##X,
-        #include "core/TokenKind.def"
+        #include "core/include/TokenKind.def"
         NUM_TOKENS
     };
 

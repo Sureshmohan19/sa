@@ -32,7 +32,8 @@
 
 #include "core/include/Token.h"
 #include "frontend/include/Lexer.h"
-#include "frontend/include/Parser.h" 
+#include "frontend/include/Parser.h"
+#include "backend/include/CodeGen.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -57,21 +58,14 @@ int main(int argc, char** argv) {
     buffer << file.rdbuf();
     std::string sourceCode = buffer.str();
 
+    // -- Frontend --
     sa::Lexer lexer(sourceCode);
     sa::Parser parser(lexer);
-
-    std::cout << "--- Parsing file: " << argv[1] << " ---" << std::endl;
-    
-    // The magic happens here!
     auto ast = parser.parse();
 
-    if (!ast.empty()) {
-        std::cout << "Successfully parsed the source file!" << std::endl;
-        std::cout << "Found " << ast.size() << " top-level declaration(s)." << std::endl;
-    } else {
-        std::cerr << "Parsing failed." << std::endl;
-        return 1;
-    }
+    // Backend
+    sa::CodeGen generator;
+    generator.run(ast);
 
     return 0;
 }

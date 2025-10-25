@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "ast/include/Visitor.h"
 #include "ast/include/Decl.h"
 #include "ast/include/Stmt.h"
 #include "ast/include/Expr.h"

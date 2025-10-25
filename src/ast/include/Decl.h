@@ -16,11 +16,13 @@ namespace sa {
 // Forward-declarations for other AST node types.
 class Stmt;
 class Expr;
+class Visitor;
 
 // The base class for all AST nodes.
 class ASTNode {
 public:
     virtual ~ASTNode() = default;
+    virtual void accept(Visitor& visitor) = 0;
 };
 
 // The base class for all declaration nodes (e.g., functions, variables).
@@ -43,6 +45,10 @@ class VarDecl : public Decl {
 public:
     VarDecl(const Token& name, std::unique_ptr<Expr> initializer)
         : Decl(name), Initializer(std::move(initializer)) {}
+    
+    void accept(Visitor& visitor) override;
+    
+    Expr* getInitializer() const { return Initializer.get(); }
 };
 
 // Represents a function declaration: 'fn main() -> void { ... }'
@@ -53,6 +59,10 @@ class FunctionDecl : public Decl {
 public:
     FunctionDecl(const Token& name, std::vector<std::unique_ptr<Stmt>> body)
         : Decl(name), Body(std::move(body)) {}
+    
+    void accept(Visitor& visitor) override;
+    
+    const std::vector<std::unique_ptr<Stmt>>& getBody() const { return Body; }
 };
 
 } // namespace sa

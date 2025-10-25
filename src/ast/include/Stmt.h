@@ -14,10 +14,14 @@ namespace sa {
 // Forward-declarations to avoid circular include dependencies.
 class Decl;
 class Expr;
+class Visitor;
 
 // The base class for all statement nodes in the AST.
 // A statement is an action that can be executed.
-class Stmt : public ASTNode {};
+class Stmt : public ASTNode {
+public:
+    virtual ~Stmt() = default;
+};
 
 // Represents a statement that is just a declaration.
 // This is an "adaptor" class that allows a Decl (like a variable declaration)
@@ -29,6 +33,10 @@ class DeclStmt : public Stmt {
 
 public:
     DeclStmt(std::unique_ptr<Decl> d) : D(std::move(d)) {}
+    
+    void accept(Visitor& visitor) override;
+    
+    Decl* getDecl() const { return D.get(); }
 };
 
 // Represents a statement that is just an expression.
@@ -40,6 +48,10 @@ class ExprStmt : public Stmt {
 
 public:
     ExprStmt(std::unique_ptr<Expr> e) : E(std::move(e)) {}
+    
+    void accept(Visitor& visitor) override;
+    
+    Expr* getExpr() const { return E.get(); }
 };
 
 } // namespace sa

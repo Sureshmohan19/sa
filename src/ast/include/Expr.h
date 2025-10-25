@@ -15,6 +15,8 @@
 
 namespace sa {
 
+class Visitor;
+
 // The base class for all expression nodes in the AST.
 class Expr : public Stmt {};
 
@@ -24,6 +26,8 @@ class StringLiteralExpr : public Expr {
 
 public:
     StringLiteralExpr(const Token& token) : StrToken(token) {}
+
+    void accept(Visitor& visitor) override;
 
     // Returns the content of the string, without the surrounding quotes.
     std::string_view getValue() const {
@@ -40,6 +44,8 @@ class VariableExpr : public Expr {
 public:
     VariableExpr(const Token& name) : Name(name) {}
 
+    void accept(Visitor& visitor) override;
+
     std::string_view getName() const { return Name.lexeme; }
 };
 
@@ -51,6 +57,11 @@ class CallExpr : public Expr {
 public:
     CallExpr(const Token& callee, std::vector<std::unique_ptr<Expr>> args)
         : Callee(callee), Args(std::move(args)) {}
+    
+    void accept(Visitor& visitor) override;
+    
+    std::string_view getCalleeName() const { return Callee.lexeme; }
+    const std::vector<std::unique_ptr<Expr>>& getArgs() const { return Args; }
 };
 
 } // namespace sa
